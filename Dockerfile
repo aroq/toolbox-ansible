@@ -1,6 +1,8 @@
-FROM aroq/toolbox-wrap:0.1.18
+FROM aroq/toolbox-wrap:0.1.19
 
-ENV ANSIBLE_VERSION=2.9.6
+ENV ANSIBLE_VERSION=2.9.3
+ENV ANSISTRANO_DEPLOY_VERSION=3.4.0
+ENV ANSISTRANO_ROLLBACK_VERSION=3.0.0
 
 COPY Dockerfile.packages.txt /etc/apk/packages.txt
 RUN apk add --no-cache --update $(grep -v '^#' /etc/apk/packages.txt)
@@ -24,3 +26,8 @@ RUN apk --update add --virtual .build-deps \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
     apk del .build-deps && \
     rm -rf /var/cache/apk/*
+
+# Install ansistrano.
+RUN ansible-galaxy install \
+  ansistrano.deploy,${ANSISTRANO_DEPLOY_VERSION} \
+  ansistrano.rollback,${ANSISTRANO_ROLLBACK_VERSION}
