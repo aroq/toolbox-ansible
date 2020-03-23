@@ -1,4 +1,4 @@
-FROM aroq/toolbox-variant:0.1.26
+FROM aroq/toolbox-secrets:0.1.12
 
 ENV ANSIBLE_VERSION=2.9.3
 ENV ANSISTRANO_DEPLOY_VERSION=3.4.0
